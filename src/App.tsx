@@ -1,9 +1,9 @@
-import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
+import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
-import Menu from './components/Menu';
+// import Menu from './components/Menu';
 import Players from './pages/Players';
-import Teams from './pages/Teams';
+// import Teams from './pages/Teams';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -30,20 +30,21 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        <IonSplitPane contentId="main">
+        {/* <IonSplitPane contentId="main">
           <Menu />
-          <IonRouterOutlet id="main">
-            <Route path="/" exact={true}>
-              <Redirect to="/players" />
-            </Route>
-            <Route path="/players" exact={true}>
-              <Players />
-            </Route>
-            <Route path="/teams" exact={true}>
-              <Teams />
-            </Route>
-          </IonRouterOutlet>
-        </IonSplitPane>
+          
+        </IonSplitPane> */}
+        <IonRouterOutlet id="main">
+          <Route path="/" exact={true}>
+            <Redirect to="/players" />
+          </Route>
+          <Route path="/players" exact={true}>
+            <Players />
+          </Route>
+          {/* <Route path="/teams" exact={true}>
+            <Teams />
+          </Route> */}
+        </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
   );

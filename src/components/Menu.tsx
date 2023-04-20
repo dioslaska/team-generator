@@ -1,6 +1,6 @@
 import { IonContent, IonIcon, IonItem, IonLabel, IonList, IonMenu, IonMenuToggle } from '@ionic/react';
 import { useLocation } from 'react-router-dom';
-import { people, person } from 'ionicons/icons';
+import { people } from 'ionicons/icons';
 import './Menu.css';
 
 interface AppPage {
@@ -13,13 +13,13 @@ const appPages: AppPage[] = [
   {
     title: 'Players',
     url: '/players',
-    icon: person,
-  },
-  {
-    title: 'Teams',
-    url: '/teams',
     icon: people,
   },
+  // {
+  //   title: 'Teams',
+  //   url: '/teams',
+  //   icon: people,
+  // },
 ];
 
 const Menu: React.FC = () => {
