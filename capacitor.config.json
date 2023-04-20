@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Team Generator",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

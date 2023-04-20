@@ -1,0 +1,8 @@
+{
+  "name": "Team Generator",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "8b8c169f"
+}
