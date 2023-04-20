@@ -47,7 +47,7 @@ export const players: IPlayer[] = [
   { id: 6, name: 'Fazi', img: '/assets/avatars/fazi.jpg', attack: 7, defense: 8, speed: 10, morale: 8, shoot: 6, passes: 8, dribble: 7 },
   { id: 7, name: 'Huni', img: '/assets/avatars/avatar.svg', attack: 9, defense: 6, speed: 10, morale: 6, shoot: 7, passes: 9, dribble: 8 },
   { id: 8, name: 'Isti', img: '/assets/avatars/isti.jpg', attack: 7, defense: 8, speed: 9, morale: 9, shoot: 6, passes: 8, dribble: 7 },
-  { id: 9, name: 'Kinda', img: '/assets/avatars/kinda.jpg', attack: 5, defense: 4, speed: 4, morale: 9, shoot: 5, passes: 5, dribble: 4 },
+  { id: 9, name: 'Kinda', img: '/assets/avatars/kinda.jpg', attack: 5, defense: 4, speed: 4, morale: 9, shoot: 5, passes: 4, dribble: 4 },
   {
     id: 10,
     name: 'Nagy Attila',
