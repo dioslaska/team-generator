@@ -1,5 +1,6 @@
 import {
   IonAvatar,
+  IonBadge,
   IonButton,
   IonButtons,
   IonCard,
@@ -20,14 +21,17 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { football, reload } from 'ionicons/icons';
-import { useCallback, useState } from 'react';
-import { players, skills, skippedPlayers } from '../business/data';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { IPlayer, players, skills, skippedPlayers } from '../business/data';
 import { createTeams, IResult } from '../business/teams';
 
 import './Players.css';
 
 const Players: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState<IPlayer | null>(null);
+  const [presentingElement, setPresentingElement] = useState<HTMLElement | null>(null);
 
   const [result, setResult] = useState<IResult>({
     team1: [],
@@ -37,13 +41,24 @@ const Players: React.FC = () => {
     deltas: { total: 0 },
   });
 
+  const page = useRef(null);
+
+  useEffect(() => {
+    setPresentingElement(page.current);
+  }, []);
+
   const makeTeams = useCallback(() => {
     setResult(createTeams());
     setIsOpen(true);
   }, []);
 
+  const openProfile = useCallback((player: IPlayer) => {
+    setSelectedPlayer(player);
+    setIsProfileOpen(true);
+  }, []);
+
   return (
-    <IonPage>
+    <IonPage ref={page}>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
@@ -62,7 +77,7 @@ const Players: React.FC = () => {
         <IonList>
           {players.map((player, i) => (
             <IonItem key={player.id} lines={i === players.length - 1 ? 'full' : 'inset'}>
-              <IonAvatar slot="start">
+              <IonAvatar slot="start" onClick={() => openProfile(player)}>
                 <img alt={player.name} src={player.img} />
               </IonAvatar>
               <IonCheckbox
@@ -85,7 +100,26 @@ const Players: React.FC = () => {
           <IonIcon slot="start" icon={football}></IonIcon>Make teams
         </IonButton>
 
-        <IonModal isOpen={isOpen}>
+        <IonModal isOpen={isProfileOpen} onWillDismiss={() => setIsProfileOpen(false)} presentingElement={presentingElement!}>
+          <IonHeader>
+            <IonToolbar>
+              <IonTitle>{selectedPlayer ? selectedPlayer.name : ''}</IonTitle>
+              <IonButtons slot="end">
+                <IonButton onClick={() => setIsProfileOpen(false)}>Close</IonButton>
+              </IonButtons>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent className="ion-padding">
+            {skills.map((skill) => (
+              <IonItem key={skill.name}>
+                <IonBadge slot="end">{selectedPlayer ? (selectedPlayer as any)[skill.name] : 0}</IonBadge>
+                <IonLabel>{skill.display}</IonLabel>
+              </IonItem>
+            ))}
+          </IonContent>
+        </IonModal>
+
+        <IonModal isOpen={isOpen} onWillDismiss={() => setIsOpen(false)} presentingElement={presentingElement!}>
           <IonHeader>
             <IonToolbar>
               <IonTitle>Teams</IonTitle>
@@ -115,7 +149,7 @@ const Players: React.FC = () => {
                   const delta = result.deltas[skill.name] || 0;
                   return (
                     <div key={skill.name}>
-                      {skill.name}: {(result.scores1[skill.name] || 0).toFixed(2)}
+                      {skill.display}: {(result.scores1[skill.name] || 0).toFixed(2)}
                       {delta ? <span className={delta < 0 ? 'delta-minus' : 'delta-plus'}> ({delta.toFixed(2)}%)</span> : null}
                     </div>
                   );
@@ -152,7 +186,7 @@ const Players: React.FC = () => {
                   const delta = (result.deltas[skill.name] || 0) * -1;
                   return (
                     <div key={skill.name}>
-                      {skill.name}: {(result.scores2[skill.name] || 0).toFixed(2)}
+                      {skill.display}: {(result.scores2[skill.name] || 0).toFixed(2)}
                       {delta ? <span className={delta < 0 ? 'delta-minus' : 'delta-plus'}> ({delta.toFixed(2)}%)</span> : null}
                     </div>
                   );

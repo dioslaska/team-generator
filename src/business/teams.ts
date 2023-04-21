@@ -22,35 +22,24 @@ export function createTeams(): IResult {
     let totalDelta = 0;
     let weightedNr = 0;
 
-    const map: { [key: number]: boolean } = comb.reduce((m, i) => {
-      m[i] = true;
-      return m;
-    }, {} as { [key: number]: boolean });
-
     for (let i = 0; i < total; i++) {
-      if (map[i]) {
+      if (comb.includes(i)) {
         team1.push(presentPlayers[i]);
       } else {
         team2.push(presentPlayers[i]);
       }
     }
 
-    for (const skill of skills) {
-      scores1[skill.name] = 0;
-      scores2[skill.name] = 0;
-      deltas[skill.name] = 0;
-    }
-
     for (const player of team1) {
       for (const skill of skills) {
-        scores1[skill.name] = scores1[skill.name] + (player as any)[skill.name];
+        scores1[skill.name] = (scores1[skill.name] || 0) + (player as any)[skill.name];
         totalScore1 += (player as any)[skill.name] * skill.weight;
       }
     }
 
     for (const player of team2) {
       for (const skill of skills) {
-        scores2[skill.name] = scores2[skill.name] + (player as any)[skill.name];
+        scores2[skill.name] = (scores2[skill.name] || 0) + (player as any)[skill.name];
         totalScore2 += (player as any)[skill.name] * skill.weight;
       }
     }
@@ -74,16 +63,7 @@ export function createTeams(): IResult {
 
     totalDelta = deltaPercent(totalScore1, totalScore2);
 
-    // if (eligible && avgDiff < totalThreshold) {
-    //   totalOk++;
-    // }
-
-    // if (eligible && totalDelta < bestDelta) {
-    //   bestDelta = totalDelta;
-    //   if (totalDelta < thresholdTotal && !found) {
-
-    if (eligible && Math.abs(totalDelta) < thresholdTotal && !found) {
-      found = true;
+    if (eligible && Math.abs(totalDelta) < thresholdTotal) {
       bestTeam1 = team1.sort((p1, p2) => (p1.name < p2.name ? -1 : 1));
       bestTeam2 = team2.sort((p1, p2) => (p1.name < p2.name ? -1 : 1));
       bestScores1 = scores1;
@@ -101,9 +81,6 @@ export function createTeams(): IResult {
   const teamLength = Math.round(total / 2);
   const thresholdSkill = 8;
   const thresholdTotal = 5;
-  // let totalOk = 0;
-  let found = false;
-  // let bestDelta = Infinity;
   let bestTeam1: IPlayer[] = [];
   let bestTeam2: IPlayer[] = [];
   let bestScores1: { [key: string]: number } = { total: 0 };
