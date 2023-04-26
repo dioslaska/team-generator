@@ -79,7 +79,7 @@ export function createTeams(): IResult {
   const presentPlayers = players.filter((p) => !p.skip).slice(0, 12);
   const total = presentPlayers.length;
   const teamLength = Math.round(total / 2);
-  const thresholdSkill = 8;
+  const thresholdSkill = 10;
   const thresholdTotal = 5;
   let bestTeam1: IPlayer[] = [];
   let bestTeam2: IPlayer[] = [];

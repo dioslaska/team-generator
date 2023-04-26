@@ -23,11 +23,11 @@ export const skills: ISkill[] = [
   { name: 'attack', display: 'Attack', weight: 1 },
   { name: 'defense', display: 'Defense', weight: 1 },
   { name: 'speed', display: 'Speed', weight: 1 },
-  { name: 'shoot', display: 'Shoot', weight: 0.9 },
+  { name: 'shoot', display: 'Shoot', weight: 1 },
   { name: 'passes', display: 'Passes', weight: 0.8 },
-  { name: 'dribble', display: 'Dribble', weight: 0.7 },
-  { name: 'morale', display: 'Morale', weight: 0.6 },
-  { name: 'teamplay', display: 'Teamplay', weight: 0.8 },
+  { name: 'dribble', display: 'Dribble', weight: 0.6 },
+  { name: 'morale', display: 'Morale', weight: 0.3 },
+  { name: 'teamplay', display: 'Teamplay', weight: 0.3 },
 ];
 
 export const players: IPlayer[] = [
@@ -219,8 +219,11 @@ const skippedPlayersJSON = localStorage.getItem('selected-players');
 
 export const skippedPlayers: { [key: number]: boolean } = skippedPlayersJSON ? JSON.parse(skippedPlayersJSON) : {};
 
+export const playerMap: { [key: string]: IPlayer } = {};
+
 for (const player of players) {
   if (skippedPlayers[player.id]) {
     player.skip = true;
   }
+  playerMap[player.name] = player;
 }
